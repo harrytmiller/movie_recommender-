@@ -19,22 +19,42 @@ Future<void> main() async {
   //set up hive
   await Hive.initFlutter(); 
   Hive.registerAdapter(NodeAdapter());
-  box = await Hive.openBox<Node>('my_map');
+  
+  // Force clear corrupted data from browser storage
+  try {
+    if (await Hive.boxExists('my_map')) {
+      await Hive.deleteBoxFromDisk('my_map');
+    }
+  } catch (e) {
+    print('Error clearing old data: $e');
+  }
+  
+  box = await Hive.openBox<Node>('my_map_v2'); // Changed name to avoid old corrupted data
 
   //retrieves csv as a list, print it in terminal 
   String csv = "assets/my_map.csv";
   String fileData = await rootBundle.loadString(csv);
   
-  //splits cvs to list
-  print(fileData); 
-  List<String> rows = fileData.split("\n");
+  //splits cvs to list - remove empty lines and trim
+  List<String> rows = fileData.split("\n")
+      .where((row) => row.trim().isNotEmpty)
+      .map((row) => row.trim())
+      .toList();
+  
+  print("Processing ${rows.length} rows from CSV");
 
   //iterates through row list
   for (int i = 0; i < rows.length; i++) {
     //retrieves current row 
     String row = rows[i];
+    
+    // Skip header row if it exists
+    if (i == 0 && !RegExp(r'^\d').hasMatch(row)) {
+      continue;
+    }
+    
     //split items in row into a list of strings seperated by comas
-    List<String> itemInRow = row.split(",");
+    List<String> itemInRow = row.split(",").map((item) => item.trim()).toList();
 
     if (itemInRow.isNotEmpty) {
       //makes sure there is enough elements for next part of coad
@@ -42,6 +62,11 @@ Future<void> main() async {
         String image = itemInRow[6].trim();
 
         try {
+          // Skip if this ID already exists to prevent duplicates
+          if (box.containsKey(int.parse(itemInRow[0]))) {
+            continue;
+          }
+          
           Node node = Node(
             int.parse(itemInRow[0]),
             int.parse(itemInRow[1]),
