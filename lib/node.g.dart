@@ -20,8 +20,8 @@ class NodeAdapter extends TypeAdapter<Node> {
       fields[0] as int,
       fields[1] as int,
       fields[2] as int,
-      fields[4] as int,
       fields[3] as int,
+      fields[4] as int,
       fields[5] as String,
       fields[6] as String,
     );
@@ -30,7 +30,7 @@ class NodeAdapter extends TypeAdapter<Node> {
   @override
   void write(BinaryWriter writer, Node obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.iD)
       ..writeByte(1)
@@ -44,8 +44,7 @@ class NodeAdapter extends TypeAdapter<Node> {
       ..writeByte(5)
       ..write(obj.question)
       ..writeByte(6)
-      ..write(obj.image)
-      ..writeByte(7);
+      ..write(obj.image);
   }
 
   @override

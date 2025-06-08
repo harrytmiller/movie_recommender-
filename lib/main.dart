@@ -5,41 +5,39 @@ import 'node.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
-
 late Box<Node> box;
-
 
 //void main
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Add error handling
+  FlutterError.onError = (FlutterErrorDetails details) {
+    print('Flutter Error: ${details.exception}');
+  };
 
   //set up hive
   await Hive.initFlutter(); 
   Hive.registerAdapter(NodeAdapter());
   box = await Hive.openBox<Node>('my_map');
 
-
-//retrieves csv as a list, print it in terminal 
-String csv = "assets/my_map.csv";
+  //retrieves csv as a list, print it in terminal 
+  String csv = "assets/my_map.csv";
   String fileData = await rootBundle.loadString(csv);
   
   //splits cvs to list
   print(fileData); 
   List<String> rows = fileData.split("\n");
 
-//iterates through row list
+  //iterates through row list
   for (int i = 0; i < rows.length; i++) {
-
-//retrieves current row 
+    //retrieves current row 
     String row = rows[i];
     //split items in row into a list of strings seperated by comas
     List<String> itemInRow = row.split(",");
 
-
-
     if (itemInRow.isNotEmpty) {
-
-//makes sure there is enough elements for next part of coad
+      //makes sure there is enough elements for next part of coad
       if (itemInRow.length >= 7) {
         String image = itemInRow[6].trim();
 
@@ -54,10 +52,10 @@ String csv = "assets/my_map.csv";
             image,
           );
 
-//puts node in box for hive database
+          //puts node in box for hive database
           box.put(node.iD, node); 
 
-// old trouble shooting however application uses functionality when removed and not marked on quality of coad so left in 
+          // old trouble shooting however application uses functionality when removed and not marked on quality of coad so left in 
         } catch (e) {
           print('Error parsing values at row $i: $e');
         }
@@ -70,15 +68,13 @@ String csv = "assets/my_map.csv";
     }
   }
 
-
-// runs app 
+  // runs app 
   runApp(
     const MaterialApp(
       home: MyFlutterApp(),
     ),
   );
 }
-
 
 // coad bellow defines classes needed for application and changing states. Provides some foundations that can be used to build off
 class MyFlutterApp extends StatefulWidget {
@@ -92,7 +88,6 @@ class MyFlutterApp extends StatefulWidget {
 
 //links MyFlutterState to changing variables
 class MyFlutterState extends State<MyFlutterApp> {
-
   String image = "";
   late int iD;
   late int backID;
@@ -101,15 +96,14 @@ class MyFlutterState extends State<MyFlutterApp> {
   late int noID;
   String question = "";
 
-
-//initialize the state of MyFlutterApp
+  //initialize the state of MyFlutterApp
   @override
   void initState() {
     super.initState();
     initializeState();
   }
 
-//sets initial node 
+  //sets initial node 
   void initializeState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
@@ -133,9 +127,7 @@ class MyFlutterState extends State<MyFlutterApp> {
     });
   }
 
-
-
-//button handlers, all 4 basicaly the same but send application to different question 
+  //button handlers, all 4 basicaly the same but send application to different question 
   void yesHandler() {
     //sets nextNode based off button id in this case yesID
     setState(() {
@@ -222,183 +214,165 @@ class MyFlutterState extends State<MyFlutterApp> {
     });
   }
 
-//start building widgets
+  //start building widgets
   @override
   Widget build(BuildContext context) {
-      return  Scaffold(
+    return Scaffold(
+      //background
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      body: Align(
+        alignment: Alignment.center,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              //container
+              Container(
+                alignment: const Alignment(0.0, -0.7),
+                width: 700,
+                height: 600,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 5,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
+              ),
 
-        //background
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        body: Align(
-          alignment: Alignment.center,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-
-
-
-
-
-
-              
-
-//container
-Container(
-  alignment: const Alignment(0.0, -0.7),
-  width: 700,
-  height: 600,
-  decoration: BoxDecoration(
-    border: Border.all(
-      width: 5,
-      color: const Color.fromARGB(255, 255, 255, 255),
-    ),
-  ),
-),
-
-
-//buttons
-                Align(
-                  alignment: const Alignment(0.25, 0.55),
-                  child: MaterialButton(
-                    onPressed: () { yesHandler();  },
-                    color: const Color.fromARGB(255, 0, 255, 115),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    textColor: const Color.fromARGB(255, 0, 0, 0),
-                    height: 40,
-                    minWidth: 155,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: const Text(
-                      "YES",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                      ),
+              //buttons
+              Align(
+                alignment: const Alignment(0.25, 0.55),
+                child: MaterialButton(
+                  onPressed: () { yesHandler(); },
+                  color: const Color.fromARGB(255, 0, 255, 115),
+                  elevation: 0,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  textColor: const Color.fromARGB(255, 0, 0, 0),
+                  height: 40,
+                  minWidth: 155,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: const Text(
+                    "YES",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
                     ),
                   ),
                 ),
-                Align(
-                  alignment: const Alignment(-0.25, 0.55),
-                  child: MaterialButton(
-                    onPressed: () { noHandler();  },
-                    color: const Color.fromARGB(255, 255, 35, 35),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    textColor: const Color.fromARGB(255, 0, 0, 0),
-                    height: 40,
-                    minWidth: 155,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: const Text(
-                      "NO",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                      ),
+              ),
+              Align(
+                alignment: const Alignment(-0.25, 0.55),
+                child: MaterialButton(
+                  onPressed: () { noHandler(); },
+                  color: const Color.fromARGB(255, 255, 35, 35),
+                  elevation: 0,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  textColor: const Color.fromARGB(255, 0, 0, 0),
+                  height: 40,
+                  minWidth: 155,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: const Text(
+                    "NO",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
                     ),
                   ),
                 ),
+              ),
 
-                Align(
-                  alignment: const Alignment(-0.25, 0.65),
-                  child: MaterialButton(
-                    onPressed: () { backHandler();  },
-                    color: const Color.fromARGB(255, 137, 134, 134),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    textColor: const Color.fromARGB(255, 0, 0, 0),
-                    height: 25,
-                    minWidth: 155,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: const Text(
-                      "BACK",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                      ),
+              Align(
+                alignment: const Alignment(-0.25, 0.65),
+                child: MaterialButton(
+                  onPressed: () { backHandler(); },
+                  color: const Color.fromARGB(255, 137, 134, 134),
+                  elevation: 0,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  textColor: const Color.fromARGB(255, 0, 0, 0),
+                  height: 25,
+                  minWidth: 155,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: const Text(
+                    "BACK",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
                     ),
                   ),
                 ),
-              
+              ),
 
-                Align(
-                  alignment: const Alignment(0.25, 0.65),
-                  child: MaterialButton(
-                    onPressed: () { restartHandler();  },
-                    color: const Color.fromARGB(255, 137, 134, 134),
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    textColor: const Color.fromARGB(255, 0, 0, 0),
-                    height: 25,
-                    minWidth: 155,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: const Text(
-                      "RESTART",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        fontStyle: FontStyle.normal,
-                      ),
+              Align(
+                alignment: const Alignment(0.25, 0.65),
+                child: MaterialButton(
+                  onPressed: () { restartHandler(); },
+                  color: const Color.fromARGB(255, 137, 134, 134),
+                  elevation: 0,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  textColor: const Color.fromARGB(255, 0, 0, 0),
+                  height: 25,
+                  minWidth: 155,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: const Text(
+                    "RESTART",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
                     ),
                   ),
                 ),
+              ),
 
+              //image 
+              Align(            
+                alignment: const Alignment(0.0, 0.0),
+                child: image.isNotEmpty
+                    ? Image.asset(
+                        image,
+                        width: 300,
+                        height: 300,
+                        fit: BoxFit.cover,
+                      )
+                    : const SizedBox.shrink(), 
+              ),
 
-//image 
-                Align(            
-                  alignment: const Alignment(0.0, 0.0),
-                  child: image.isNotEmpty
-                      ? Image.asset(
-                          image,
-                          width: 300,
-                          height: 300,
-                          fit: BoxFit.cover,
-                  )
-                      : const SizedBox.shrink(), 
+              //textbox      
+              Align(
+                alignment: const Alignment(0.0, -0.62),
+                child: Container(
+                  width: 600, 
+                  child: Text(
+                    question,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.clip,
+                    softWrap: true, 
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
                 ),
-
-
-  //textbox      
-Align(
-  alignment: const Alignment(0.0, -0.62),
-  child: Container(
-    width: 600, 
-    child: Text(
-      question,
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.clip,
-      softWrap: true, 
-      style: const TextStyle(
-        fontWeight: FontWeight.w400,
-        fontStyle: FontStyle.normal,
-        fontSize: 28,
-        color: Color.fromARGB(255, 255, 255, 255),
-      ),
-    ),
-  ),
-),
-
-
-
-
-              ],
-            ),
+              ),
+            ],
           ),
         ),
+      ),
     );  //end of scaffold
   }
 }
-
