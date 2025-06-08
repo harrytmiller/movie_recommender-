@@ -3,6 +3,7 @@ name: Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches: [ main ]
+  workflow_dispatch: # Allow manual triggering
 
 permissions:
   contents: read
@@ -29,7 +30,7 @@ jobs:
         run: flutter pub get
         
       - name: Build web
-        run: flutter build web --release
+        run: flutter build web --release --base-href="/movie_recommender-/"
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
