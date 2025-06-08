@@ -20,16 +20,14 @@ Future<void> main() async {
   await Hive.initFlutter(); 
   Hive.registerAdapter(NodeAdapter());
   
-  // Force clear corrupted data from browser storage
+  // Force complete fresh start - clear ALL Hive data
   try {
-    if (await Hive.boxExists('my_map')) {
-      await Hive.deleteBoxFromDisk('my_map');
-    }
+    await Hive.deleteFromDisk();
   } catch (e) {
-    print('Error clearing old data: $e');
+    print('Could not clear storage: $e');
   }
   
-  box = await Hive.openBox<Node>('my_map_v2'); // Changed name to avoid old corrupted data
+  box = await Hive.openBox<Node>('my_map_v3'); // New box name
 
   //retrieves csv as a list, print it in terminal 
   String csv = "assets/my_map.csv";
