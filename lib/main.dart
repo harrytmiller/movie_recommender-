@@ -20,7 +20,7 @@ Future<void> main() async {
 
 
 //retrieves csv as a list, print it in terminal 
-  String csv = "my_map.csv";
+String csv = "assets/my_map.csv";
   String fileData = await rootBundle.loadString(csv);
   
   //splits cvs to list
