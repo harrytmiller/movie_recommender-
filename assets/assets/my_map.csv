@@ -1,0 +1,32 @@
+1,1,1,4,1,Are you ready to play Movie Recommender?,assets/cinema.jpg
+4,1,1,5,11,Do you like superhero movies?,assets/superhero.jpg
+5,4,1,6,8,Do you prefer Marvel to DC?,assets/marvel.jpg
+6,5,1,7,19,Do you like team-up movies?,assets/team.jpg
+7,6,1,20,21,Do you prefer Avengers to Spider-Man?,assets/avengers.jpg
+8,5,1,9,10,Do you prefer Batman movies?,assets/batman.jpg
+9,8,1,22,23,Do you like dark Batman stories?,assets/dark.jpg
+10,8,1,24,25,Do you like Superman movies?,assets/superman.jpg
+11,4,1,13,12,Do you like animated movies?,assets/animated.jpg
+13,11,1,26,27,Do you prefer Pixar to Disney?,assets/pixar.jpg
+12,11,1,14,17,Do you like comedy more than horror?,assets/comedy.jpg
+14,12,1,15,28,Do you prefer romantic comedies?,assets/romcom.jpg
+15,14,1,29,30,Do you like British rom-coms?,assets/british.jpg
+17,12,1,18,80,Do you prefer slasher movies?,assets/slasher.jpg
+18,17,1,34,32,Do you prefer classic horror?,assets/classic.jpg
+80,17,1,35,33,Do you prefer psychological horror?,assets/phy.jpg
+19,6,1,1,19,You should watch Iron Man. Would you like to play again?,assets/ironman.jpg
+20,7,1,1,20,You should watch Avengers: Endgame. Would you like to play again?,assets/endgame.jpg
+21,7,1,1,21,You should watch Spider-Man: No Way Home. Would you like to play again?,assets/spiderman.jpg
+22,9,1,1,22,You should watch The Dark Knight. Would you like to play again?,assets/darknight.jpg
+23,9,1,1,23,You should watch Batman Begins. Would you like to play again?,assets/begins.jpg
+24,10,1,1,24,You should watch Superman. Would you like to play again?,assets/superman2.jpg
+25,10,1,1,25,You should watch joker. Would you like to play again?,assets/joker.jpg
+26,13,1,1,26,You should watch Toy Story. Would you like to play again?,assets/toystory.jpg
+27,13,1,1,27,You should watch The Lion King. Would you like to play again?,assets/lionking.jpg
+28,14,1,1,28,You should watch The Hangover. Would you like to play again?,assets/hangover.jpg
+29,15,1,1,29,You should watch Notting Hill. Would you like to play again?,assets/nottinghill.jpg
+30,15,1,1,30,You should watch The Proposal. Would you like to play again?,assets/proposal.jpg
+32,18,1,1,32,You should watch Terrifier. Would you like to play again?,assets/terr.jpg
+33,80,1,1,33,You should watch Annabel. Would you like to play again?,assets/ann.jpg
+34,18,1,1,34,You should watch Psycho. Would you like to play again?,assets/psycho.jpg
+35,80,1,1,35,You should watch The shining. Would you like to play again?,assets/download.jpg
