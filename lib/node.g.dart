@@ -1,5 +1,3 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'node.dart';
 
 // **************************************************************************
@@ -20,8 +18,8 @@ class NodeAdapter extends TypeAdapter<Node> {
       fields[0] as int,
       fields[1] as int,
       fields[2] as int,
-      fields[3] as int,
-      fields[4] as int,
+      fields[4] as int,  // Back to original order - yesID
+      fields[3] as int,  // Back to original order - noID
       fields[5] as String,
       fields[6] as String,
     );
